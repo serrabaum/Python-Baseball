@@ -22,6 +22,13 @@ for game_file in game_files:
 #Concat all df in game_frames (list of df's)
 games=pd.concat(game_frames)
 
+games.loc[games['multi5']=='??','Multi5']=""
+
+
+
+
+
+
 
 
 
