@@ -26,9 +26,34 @@ games=pd.concat(game_frames)
 games.loc[games['multi5']=='??']
 
 #create boolean df for conditional update of games df - not used in below update
-mytest = games.loc[games['multi5']=='??']
+    #mytest = games.loc[games['multi5']=='??']
 
-#updating values
+#updating values in 'multi5' column
 games.loc[(games.multi5 == '??'),'multi5']=''
 
+#create new df identifiers with a new column extracted from 'multi2' using regex
 identifiers = games['multi2'].str.extract((r'(.LS(\d{4})\d{5})'))
+
+#use fillna to populate NaN values using ffill method
+identifiers = identifiers.fillna(method='ffill')
+
+#rename columns
+identifiers.columns = ['game_id','year']
+
+#concat games and identifiers on column basis (axis = 1)
+games = pd.concat([games, identifiers],axis=1,sort=False)
+
+games=games.fillna('')
+
+#convert 'type' column to a category data type to save memory
+#as only few3values
+games.loc[:,'type'] = pd.Categorical(games.loc[:,'type'])
+
+#Show number of rows with each value in 'type' column
+games['type'].value_counts()
+
+#shows df column data types
+games.dtypes
+
+#print df to check
+print(games.head())
