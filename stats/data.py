@@ -25,21 +25,10 @@ games=pd.concat(game_frames)
 #retrieves values based on condition
 games.loc[games['multi5']=='??']
 
-#Try at updating not working
-#games.loc[games['multi5']=='??','Multi5']=""
+#create boolean df for conditional update of games df - not used in below update
+mytest = games.loc[games['multi5']=='??']
 
+#updating values
+games.loc[(games.multi5 == '??'),'multi5']=''
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+identifiers = games['multi2'].str.extract((r'(.LS(\d{4})\d{5})'))
