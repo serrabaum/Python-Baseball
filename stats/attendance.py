@@ -5,8 +5,6 @@ import matplotlib.pyplot as plt
 #import games df from data.py module
 from data import games
 
-
-
 #create new attendance df for filtered condition and selected collumns
 attendance = games.loc[(games['type']=='info') & (games['multi2']=='attendance'),['year','multi3']]
 
