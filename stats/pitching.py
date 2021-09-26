@@ -1,7 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from data import games
-print(games.head(10))
+
+#filter only plays to new df 
+plays = games[games['type']=='play']
 
 
 
