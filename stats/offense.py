@@ -8,8 +8,13 @@ plays.columns =['type', 'inning', 'team', 'player', 'count', 'pitches', 'event',
 
 #print(plays.columns)
 
-hits = plays.loc[plays['event'].str.contains('^(?:S(?!B)|D|T|HR)') ]
+hits = plays.loc[plays['event'].str.contains('^(?:S(?!B)|D|T|HR)'),['inning','event'] ]
 
-print(hits.head(8))
+
+#hits['inning'] = hits['inning'].apply(pd.to_numeric) WORKS
+#hits['inning'] = pd.to_numeric(hits['inning']) WORKS
+
+hits = hits.loc[:,['inning']].apply(pd.to_numeric) #WORKS
+
 
 
