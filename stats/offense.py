@@ -33,10 +33,15 @@ hits = hits.groupby(['inning', 'hit_type']).size().reset_index(name='count')
 hits['hit_type'] = pd.Categorical(hits['hit_type'],['single', 'double', 'triple', 'hr']) #WORKS
 #hits.loc[:,'hit_type'] = pd.Categorical(hits.loc[:,'hit_type'],['single', 'double', 'triple', 'hr']) #WORKS with .loc
 
+#sort and update df hits
+hits = hits.sort_values(['inning', 'hit_type'])
 
+#Pivot
+hits = hits.pivot(index='inning', columns='hit_type', values='count')
 
+#print(hits.head(12))
 
-
-
+hits.plot.bar(stacked=True)
+plt.show()
 
 
