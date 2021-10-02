@@ -6,15 +6,24 @@ from data import games
 plays = games[games['type']=='play']
 plays.columns =['type', 'inning', 'team', 'player', 'count', 'pitches', 'event', 'game_id', 'year']
 
-#print(plays.columns)
 
 hits = plays.loc[plays['event'].str.contains('^(?:S(?!B)|D|T|HR)'),['inning','event'] ]
 
+#converts inning from object type to numeric
+hits.loc[:,'inning'] = pd.to_numeric(hits.loc[:,'inning'])
 
-#hits['inning'] = hits['inning'].apply(pd.to_numeric) WORKS
-#hits['inning'] = pd.to_numeric(hits['inning']) WORKS
+#dict for replacing values
+replacements = {r'^S(.*)': 'single', r'^D(.*)': 'double', r'^T(.*)': 'triple', r'^HR(.*)': 'hr'}
 
-hits = hits.loc[:,['inning']].apply(pd.to_numeric) #WORKS
+#other attempts at replace
+#hit_type = hits.replace(replacements, regex=True) #works probably replaces matching vals in any of the 2 cols
+#hit_type = hits.replace(hits['event'],replacements, regex=True) #doesn't work, 2 cols but no replacement
+#hit_type = hits.replace({"event": replacements}) #doesn't work, 2 cols but no replacement
 
+#works returns single 'event' column with values replaced, not sure if this is what course requires?
+hit_type = hits['event'].replace(replacements, regex=True) 
 
+print(hit_type.shape)
+print(hit_type.dtypes)
+print(hit_type)
 
