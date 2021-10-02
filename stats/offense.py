@@ -23,7 +23,17 @@ replacements = {r'^S(.*)': 'single', r'^D(.*)': 'double', r'^T(.*)': 'triple', r
 #works returns single 'event' column with values replaced, not sure if this is what course requires?
 hit_type = hits['event'].replace(replacements, regex=True) 
 
-print(hit_type.shape)
-print(hit_type.dtypes)
-print(hit_type)
+
+print(hits.shape)
+print(hits.dtypes)
+#creates new column form df hit_type (they have the same index)
+
+hits = hits.assign(hit_type=hit_type)
+hits = hits.groupby(['inning', 'hit_type']).size().reset_index(name='count')
+
+print(hits)
+
+
+
+
 
