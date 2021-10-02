@@ -24,14 +24,17 @@ replacements = {r'^S(.*)': 'single', r'^D(.*)': 'double', r'^T(.*)': 'triple', r
 hit_type = hits['event'].replace(replacements, regex=True) 
 
 
-print(hits.shape)
-print(hits.dtypes)
-#creates new column form df hit_type (they have the same index)
-
+#creates new column from df hit_type (they have the same index)
 hits = hits.assign(hit_type=hit_type)
 hits = hits.groupby(['inning', 'hit_type']).size().reset_index(name='count')
 
-print(hits)
+
+#convert 'hit_type' column to a category data type to save memory as only few values
+hits['hit_type'] = pd.Categorical(hits['hit_type'],['single', 'double', 'triple', 'hr']) #WORKS
+#hits.loc[:,'hit_type'] = pd.Categorical(hits.loc[:,'hit_type'],['single', 'double', 'triple', 'hr']) #WORKS with .loc
+
+
+
 
 
 
